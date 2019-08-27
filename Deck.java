@@ -51,6 +51,31 @@ public class Deck {
 
     public boolean hasCards()
     {
-        if
+        return (size() >0);
+    }
+
+    public Card get(int pos)
+    {
+        return cards.get(pos);      //get is a method of arraylists
+    }
+
+    /**
+     * add method first ensures that there is sufficient space in the arraylist.
+     * If list does not have space, then it grows the list by adding more spaces in underlying array.
+     * Then it add the element to specific array index.
+     * @param card
+     */
+    public void add(Card card)
+    {
+        cards.add(card);
+    }
+
+    public void addAll(Deck other)
+    {
+        for(int i = 0; i<other.size();i++)
+        {
+            cards.add(other.get(i));
+            other.remove(i);
+        }
     }
 }
