@@ -146,7 +146,7 @@ public class Deck {
 
     /**
      * void shuffle(): randomly permutes the cards.
-     *
+     *===================================================================================================================
      */
     public void shuffle()
     {
@@ -156,7 +156,7 @@ public class Deck {
         {
             value = rand.nextInt(cards.size());    //random index from 0 to size-1
             Card insert = cards.get(value);         //obtaining the card at index, value
-            
+
             cards.add(i, insert);                   //adding insert to the deck at index, i
         }
 
@@ -165,8 +165,22 @@ public class Deck {
     /**
      * Deck deal(int n): removes a maximum of n cards from the end of this deck. The cards are returned in a new deck.
      */
+    public Deck deal(int n)
+    {
+        Deck otherCards = new Deck();                   //empty deck
+        for(int i=cards.size()-1;i>=n; i--)
+        {
+            otherCards.add(cards.get(i);
+            cards.remove(i);
+        }
+        return otherCards;
+    }
 
     //boolean contains(Card card): returns true if and only if this deck contains the specified card.
+    public boolean contains(Card card)
+    {
+        
+    }
 
     //boolean containsAll(Deck other): returns trueif and only if this deck contains all the cards in the specified deck.
 
