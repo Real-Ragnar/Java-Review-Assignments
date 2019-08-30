@@ -55,6 +55,11 @@ public class Deck {
         return (cards.size() >0);
     }
 
+    /**
+     *
+     * @param pos
+     * @return card a specified position
+     */
     public Card get(int pos)
     {
         return cards.get(pos);      //get is a method of arraylists
@@ -146,20 +151,11 @@ public class Deck {
 
     /**
      * void shuffle(): randomly permutes the cards.
-     *===================================================================================================================
+     *  "cards" is an object of arraylist class and it contains many cards
      */
     public void shuffle()
     {
-        int value = 0;
-        Random rand = new Random();
-        for(int i=0; i<cards.size(); i++)
-        {
-            value = rand.nextInt(cards.size());    //random index from 0 to size-1
-            Card insert = cards.get(value);         //obtaining the card at index, value
-
-            cards.add(i, insert);                   //adding insert to the deck at index, i
-        }
-
+        Collections.shuffle(cards);
     }
 
     /**
@@ -168,10 +164,10 @@ public class Deck {
     public Deck deal(int n)
     {
         Deck otherCards = new Deck();                   //empty deck
-        for(int i=cards.size()-1;i>=n; i--)
+        while(n>0 && cards.size()>0)
         {
-            otherCards.add(cards.get(i);
-            cards.remove(i);
+            otherCards.add(cards.remove(cards.size()-1));       //remove method returns the card at specified index
+            n--;
         }
         return otherCards;
     }
@@ -219,38 +215,118 @@ public class Deck {
      */
     public boolean isSeq()
     {
-        boolean valid = true;
-        if(cards.size() >=3)
-        {
-            for(int i=0; i<cards.size(); i++)                           //ensure all cards have same suit
-            {
-                if(!(cards.get(0).getSuit()==cards.get(i).getSuit()))
-                {
-                    return false;
-                }
-                if(i != cards.size()-1)                                   //if not at last index
-                {
-                    if(Math.abs(cards.get(i).getRank()-cards.get(i+1).getRank()) != 1)  //ensure cards differ by 1 rank
-                    {
-                        return false;
-                    }
-                }
+
+        if (cards.size() < 3) {
+            return false;
+        }
+
+        sortByRank();
+
+        for (int i=1; i<cards.size(); i++) {
+
+            Card a, b;
+
+            a = cards.get(i-1);
+            b = cards.get(i);
+
+            if (a.getSuit() != b.getSuit()) {
+                return false;
+            }
+
+            if (a.getRank()+1 != b.getRank()) {
+                return false;
             }
 
         }
+
+        return true;
     }
 
-    //void sortBySuit(): sorts the cards of this deck by suit.
+    /**
+     *  void sortBySuit(): sorts the cards of this deck by suit.
+     *  DIAMOND, CLUB, HEART, SPADE
+     */
+    public void sortBySuit()
+    {
+        ArrayList<Card> tempCards = new ArrayList<Card>();
+        for(int j=0; j<4; j++) {
+            for (int i = 0; i < cards.size(); i++) {
+                if (cards.get(i).getSuit() == 0)           //diamond
+                {
+                    tempCards.add(cards.get(i));
+                }
+                else if (cards.get(i).getSuit() == 1)           //club
+                {
+                    tempCards.add(cards.get(i));
+                }
+                else if (cards.get(i).getSuit() == 2)           //heart
+                {
+                    tempCards.add(cards.get(i));
+                }
+                else if (cards.get(i).getSuit() == 3)           //spade
+                {
+                    tempCards.add(cards.get(i));
+                }
+            }
+        }
+        cards = tempCards;
+    }
+
 
     //void sortByRank(): sorts the cards of this deck by rank.
+    public void sortByRank()
+    {
+        ArrayList<Card> tempCards = new ArrayList<Card>();
+        for(int i=0; i<cards.size(); i++)
+        {
+            for(int j=0; j<cards.size(); j++)
+            {
+                if(cards.get(j).getRank() == i)
+                {
+                    tempCards.add(cards.get(j));
+                }
+            }
+        }
+        cards=tempCards;
+
+    }
 
     /*void print(): prints the content of this deck in two ways. First, the content is printed by suit. Next, the content is printed
     by rank. Please note that this method has a side effect, the order of the cards is not preserved. Consequently, the method
     should not be called on the main deck during a game!
      */
+    public void print()
+    {
+        sortBySuit();
+        for(int i=0; i<cards.size(); i++)
+        {
+            System.out.println(cards.get(i));
+        }
+
+        sortByRank();
+        for(int j=0; j<cards.size(); j++)
+        {
+            System.out.println(cards.get(j));
+        }
+    }
 
     //String toString(): returns a string representation that contains all the cards in this deck.
+    public String toString()
+    {
+        String out;
+        out = "Deck [";
 
+        for (int i=0; i<cards.size(); i++) {
+            if (i>0) {
+                out = out + ",";
+            }
+            out = out + cards.get(i);
+        }
+
+        out = out + "]";
+
+        return out;
+    }
 
 
 
