@@ -179,19 +179,66 @@ public class Deck {
     //boolean contains(Card card): returns true if and only if this deck contains the specified card.
     public boolean contains(Card card)
     {
-        
+        return cards.contains(card);
     }
 
-    //boolean containsAll(Deck other): returns trueif and only if this deck contains all the cards in the specified deck.
+    //boolean containsAll(Deck other): returns true if and only if this deck contains all the cards in the specified deck.
+    public boolean containsAll(Deck other)
+    {
+        boolean valid = true;
+        for(int i=0; i<other.size();i++)
+        {
+            if(!(cards.contains(other.get(i))))
+            {
+                valid = false;
+            }
+        }
+        return valid;
+    }
 
     /* boolean isKind(): returns true if and only if this deck is a discardable kind. Specifically, the method returns true if this
         deck has at least two cards and all the cards have the same rank. Otherwise, the method returns false.
      */
+    public boolean isKind()
+    {
+        boolean valid = true;
+        if(cards.size() >=2) {
+            for (int i = 0; i < cards.size(); i++) {
+                if (!(cards.get(0).getRank() == cards.get(i).getRank()))        //compare the first cards rank to the others....
+                {
+                    valid = false;
+                }
+            }
+        }
+        return valid;
+    }
 
     /* boolean isSeq(): returns true if and only if this deck is a discardable sequence. Specifically, the method returns true
             if this deck has at least three cards, the cards all have the same suit, the cards form a sequence of consecutive ranks.
             Otherwise, the method returns false.
      */
+    public boolean isSeq()
+    {
+        boolean valid = true;
+        if(cards.size() >=3)
+        {
+            for(int i=0; i<cards.size(); i++)                           //ensure all cards have same suit
+            {
+                if(!(cards.get(0).getSuit()==cards.get(i).getSuit()))
+                {
+                    return false;
+                }
+                if(i != cards.size()-1)                                   //if not at last index
+                {
+                    if(Math.abs(cards.get(i).getRank()-cards.get(i+1).getRank()) != 1)  //ensure cards differ by 1 rank
+                    {
+                        return false;
+                    }
+                }
+            }
+
+        }
+    }
 
     //void sortBySuit(): sorts the cards of this deck by suit.
 
